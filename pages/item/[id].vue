@@ -8,9 +8,10 @@ const route = useRoute()
 let product = ref(null)
 let currentImage = ref(null)
 
-// onBeforeMount(async () => {
-//     product.value = await useFetch(`/api/prisma/get-product-by-id/${route.params.id}`)
-// })
+onBeforeMount(async () => {
+    product.value = await useFetch(`/api/prisma/get-product-by-id/${route.params.id}`)
+    setTimeout(() => userStore.isLoading = false, 100)
+})
 
 watchEffect(() => {
     if (product.value && product.value.data) {
@@ -82,9 +83,9 @@ const addToCart = () => {
                     </div>
                 </div>
                 <div class="md:w-[60%] bg-white p-3 rounded-lg">
-                    <div>
-                        <p class="mb-2">title</p>
-                        <p class="font-light text-[12px] mb-2">description</p>
+                    <div  v-if="product && product.data">
+                        <p class="mb-2">{{ product.data.title }}</p>
+                        <p class="font-light text-[12px] mb-2">{{ product.data.description }}</p>
                     </div>
 
                     <div class="flex items-center pt-1.5">

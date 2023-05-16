@@ -1,72 +1,7 @@
-<script setup>
-import MainLayout from '~/layouts/MainLayout.vue';
-import { ref, toRaw } from 'vue'
-import { useUserStore } from '~/stores/user';
-const userStore = useUserStore()
-// const user = useSupabaseUser()
-
-let selectedArray = ref([])
-
-onMounted(() => {
-    setTimeout(() => userStore.isLoading = false, 200)
-})
-
-const cards = ref([
-    'visa.png',
-    'mastercard.png',
-    'paypal.png',
-    'applepay.png',
-])
-
-const totalPriceComputed = computed(() => {
-    let price = 0
-    products.forEach(prod => {
-        price += prod.price
-    })
-    return price / 100
-})
-
-const selectedRadioFunc = (e) => {
-
-    if (!selectedArray.value.length) {
-        selectedArray.value.push(e)
-        return
-    }
-
-    selectedArray.value.forEach((item, index) => {
-        if (e.id != item.id) {
-            selectedArray.value.push(e)
-        } else {
-            selectedArray.value.splice(index, 1);
-        }
-    })
-}
-
-const goToCheckout = () => {
-    let ids = []
-    userStore.checkout = []
-
-    selectedArray.value.forEach(item => ids.push(item.id))
-
-    let res = userStore.cart.filter((item) => {
-        return ids.indexOf(item.id) != -1
-    })
-
-    res.forEach(item => userStore.checkout.push(toRaw(item)))
-
-    return navigateTo('/checkout')
-}  
-
-const products = [
-    {id: 1, title: 'title 1', description: 'this is a description', url: 'https://picsum.photos/id/237/800/800', price: 1234},
-    {id: 2, title: 'title 2', description: 'this is a description', url: 'https://picsum.photos/id/238/800/800', price: 1234}
-]
-</script>
-
 <template>
     <MainLayout>
         <div id="ShoppingCartPage" class="mt-4 max-w-[1200px] mx-auto px-2">
-            <div v-if="false" class="h-[500px] flex items-center justify-center">
+            <div v-if="!userStore.cart.length" class="h-[500px] flex items-center justify-center">
                 <div class="pt-20">
                     <img 
                         class="mx-auto"
@@ -101,7 +36,7 @@ const products = [
                     <div class="bg-white rounded-lg p-4">
 
                         <div class="text-2xl font-bold mb-2">
-                            Shopping Cart (0)
+                            Shopping Cart ({{ userStore.cart.length }})
                         </div>
 
                     </div>
@@ -111,7 +46,7 @@ const products = [
                     </div>
 
                     <div id="Items" class="bg-white rounded-lg p-4 mt-4">
-                        <div v-for="product in products">
+                        <div v-for="product in userStore.cart">
                             <CartItem 
                                 :product="product" 
                                 :selectedArray="selectedArray"
@@ -131,7 +66,7 @@ const products = [
                                 $ <span class="font-extrabold">{{ totalPriceComputed }}</span>
                             </div>
                         </div>
-                        <button 
+                        <button
                             @click="goToCheckout"
                             class="
                                 flex
@@ -173,3 +108,62 @@ const products = [
         </div>
     </MainLayout>
 </template>
+
+<script setup>
+import MainLayout from '~/layouts/MainLayout.vue';
+import { useUserStore } from '~/stores/user';
+const userStore = useUserStore()
+const user = useSupabaseUser()
+
+let selectedArray = ref([])
+
+onMounted(() => {
+    setTimeout(() => userStore.isLoading = false, 200)
+})
+
+const cards = ref([
+    'visa.png',
+    'mastercard.png',
+    'paypal.png',
+    'applepay.png',
+])
+
+const totalPriceComputed = computed(() => {
+    let price = 0
+    userStore.cart.forEach(prod => {
+        price += prod.price
+    })
+    return price / 100
+})
+
+const selectedRadioFunc = (e) => {
+
+    if (!selectedArray.value.length) {
+        selectedArray.value.push(e)
+        return
+    }
+
+    selectedArray.value.forEach((item, index) => {
+        if (e.id != item.id) {
+            selectedArray.value.push(e)
+        } else {
+            selectedArray.value.splice(index, 1);
+        }
+    })
+}
+
+const goToCheckout = () => {
+    let ids = []
+    userStore.checkout = []
+
+    selectedArray.value.forEach(item => ids.push(item.id))
+
+    let res = userStore.cart.filter((item) => {
+        return ids.indexOf(item.id) != -1
+    })
+
+    res.forEach(item => userStore.checkout.push(toRaw(item)))
+
+    return navigateTo('/checkout')
+}  
+</script>
