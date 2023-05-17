@@ -1,42 +1,29 @@
-# Nuxt 3 Minimal Starter
+# AliExpress Clone / (aliexpress-clone)
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
-
-## Setup
-
-Make sure to install the dependencies:
-
-```bash
-# yarn
-yarn install
-
-# npm
-npm install
-
-# pnpm
-pnpm install
 ```
+git clone https://github.com/mukai1007/aliexpress-clone.git
 
-## Development Server
+cp .env.example .env
 
-Start the development server on `http://localhost:3000`
+npm i
 
-```bash
+npx prisma generate
+
 npm run dev
 ```
+You'll have to setup a Supabase account & Stripe account, then add all of the details in to your .env file.
 
-## Production
+Once you've connected your application to Supabase. You'll also need to setup the Auth Providers:
+    Google [Google](https://cloud.google.com)
+    Github [Github](https://github.com/settings/developers)
+    
+    https://supabase.com/docs/guides/auth/social-login/auth-google
+    https://supabase.com/docs/guides/auth/social-login/auth-github
+    
+Now run the command to migrate your database tables and run your seed file.
 
-Build the application for production:
-
-```bash
-npm run build
 ```
-
-Locally preview production build:
-
-```bash
-npm run preview
+npx prisma migrate dev --name init
 ```
+# Application Images
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
