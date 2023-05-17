@@ -127,19 +127,7 @@ const goToCheckout = () => {
                         </div>
                         <button 
                             @click="goToCheckout"
-                            class="
-                                flex
-                                items-center
-                                justify-center
-                                bg-[#FD374F] 
-                                w-full 
-                                text-white 
-                                text-[21px] 
-                                font-semibold 
-                                p-1.5 
-                                rounded-full
-                                mt-4
-                            "
+                            :class="selectedArray.length < 1 ? 'flex items-center justify-center bg-gray-300 w-full text-white text-[21px] font-semibold p-1.5 rounded-full mt-4' : 'flex items-center justify-center bg-[#FD374F] w-full text-white text-[21px] font-semibold p-1.5 rounded-full mt-4'"
                         >
                             Checkout
                         </button>

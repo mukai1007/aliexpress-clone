@@ -13,7 +13,9 @@ let items = ref(null)
 
 const searchByName = useDebounce(async () => {
     isSearching.value = true
-    items.value = await useFetch(`/api/prisma/search-by-name/${searchItem.value}`)
+    if(searchItem.value !== '') {
+      items.value = await useFetch(`/api/prisma/search-by-name/${searchItem.value}`)  
+    }
     isSearching.value = false
 }, 100)
 
@@ -140,7 +142,7 @@ watch(() => searchItem.value, async () => {
                                     pl-3
                                     focus:outline-none
                                 "
-                                placeholder="kitchen accessories"
+                                placeholder="iphone 14 pro"
                                 type="text"
                                 v-model="searchItem"
                             >
@@ -155,7 +157,7 @@ watch(() => searchItem.value, async () => {
                             </button>
                         </div>
 
-                        <div class="absolute bg-white max-w-[700px] h-auto w-full">
+                        <div class="absolute bg-white max-w-[700px] h-auto w-full rounded-md">
                             <div 
                                 v-if="items && items.data" 
                                 v-for="item in items.data" 
@@ -163,11 +165,11 @@ watch(() => searchItem.value, async () => {
                             >
                                 <NuxtLink 
                                     :to="`/item/${item.id}`" 
-                                    class="flex items-center justify-between w-full cursor-pointer hover:bg-gray-100"
+                                    class="flex items-center justify-between w-full cursor-pointer hover:bg-gray-100 px-2"
                                 >
                                     <div class="flex items-center">
                                         <img class="rounded-md" width="40" :src="item.url">
-                                        <div class="truncate ml-2">{{ item.title }}</div>
+                                        <div class="truncate ml-2">{{ item.title.substring(0, 65) }} ...</div>
                                     </div>
                                     <div class="truncate">${{ item.price / 100 }}</div>
                                 </NuxtLink>

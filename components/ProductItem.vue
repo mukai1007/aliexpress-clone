@@ -25,7 +25,7 @@
     >
         <NuxtLink :to="`/item/${product.id}`">
             <img 
-                class="rounded-t "
+                class="rounded-t w-[200px] h-[200px] object-cover"
                 :src="product.url"
             >
 
@@ -50,7 +50,7 @@
                 </p>
 
                 <p class="px-1 pt-0.5 text-xs text-[#252525]">
-                    {{ product.title.substring(0,60) }}
+                    {{ product.title.substring(0,45) }} ...
                 </p>
 
                 <p class="px-1 pb-1">

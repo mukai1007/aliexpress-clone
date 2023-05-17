@@ -40,17 +40,17 @@ const priceComputed = computed(() => {
 
 const images = ref([
     '',
-    'https://picsum.photos/id/212/800/800',
-    'https://picsum.photos/id/233/800/800',
-    'https://picsum.photos/id/165/800/800',
-    'https://picsum.photos/id/99/800/800',
-    'https://picsum.photos/id/144/800/800',
+    'https://ae01.alicdn.com/kf/S690d61986c35466bb5886d7f91819305i/DCAE-15W-Fast-Wireless-Charger-Dock-Station-For-iPhone-14-13-12-11-XS-XR-X.jpg_800x800.jpg_.webp',
+    'https://ae01.alicdn.com/kf/Ha1e14b1e0faf4d05885576a15e146986B/DCAE-15W-Fast-Wireless-Charger-Dock-Station-For-iPhone-14-13-12-11-XS-XR-X.jpg_800x800.jpg_.webp',
+    'https://ae01.alicdn.com/kf/H45b7af86d9bd4daf9136dda97ef143584/DCAE-15W-Fast-Wireless-Charger-Dock-Station-For-iPhone-14-13-12-11-XS-XR-X.jpg_800x800.jpg_.webp',
+    'https://ae01.alicdn.com/kf/Hdb69bea4bd464a8f844363508b46a91cI/DCAE-15W-Fast-Wireless-Charger-Dock-Station-For-iPhone-14-13-12-11-XS-XR-X.jpg_800x800.jpg_.webp',
+    'https://ae01.alicdn.com/kf/Hbf78af6b23654638882a0fa2bcce930dT/DCAE-15W-Fast-Wireless-Charger-Dock-Station-For-iPhone-14-13-12-11-XS-XR-X.jpg_800x800.jpg_.webp',
 ])
 
 onMounted(() => {
     watchEffect(() => {
-        currentImage.value = 'https://picsum.photos/id/77/800/800'
-        images.value[0] = 'https://picsum.photos/id/77/800/800'
+        currentImage.value = 'https://via.placeholder.com/800/'
+        images.value[0] = 'https://via.placeholder.com/800/'
     })
 })
 
