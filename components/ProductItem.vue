@@ -11,6 +11,7 @@
         return res.toFixed(2)
     })
 </script>
+
 <template>
     <div 
         :id="`ProductComponent${product.id}`"

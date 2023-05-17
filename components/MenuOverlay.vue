@@ -2,8 +2,8 @@
 import { useUserStore } from '~/stores/user';
 const userStore = useUserStore()
 
-// const client = useSupabaseClient()
-// const user = useSupabaseUser()
+const client = useSupabaseClient()
+const user = useSupabaseUser()
 
 const goTo = (url) => {
     userStore.isMenuOverlay = false
@@ -28,7 +28,7 @@ const signIn = () => {
             <NuxtLink to="/" @click="userStore.isMenuOverlay = false">
                 <img 
                     width="170"
-                    src="../public/AliExpress-logo.png"
+                    src="/AliExpress-logo.png"
                 >
             </NuxtLink>
 
@@ -64,7 +64,7 @@ const signIn = () => {
                 </li>
 
                 <li 
-                    @click="goTo('cart')"
+                    @click="goTo('shoppingcart')"
                     class="
                         relative 
                         flex 
@@ -94,7 +94,7 @@ const signIn = () => {
                             rounded-full
                         "
                     >
-                        0
+                        {{ userStore.cart.length }}
                     </div>
                 </li>
 

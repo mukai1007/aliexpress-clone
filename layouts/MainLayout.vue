@@ -1,3 +1,39 @@
+<script setup>
+import { useUserStore } from '~/stores/user';
+const userStore = useUserStore()
+
+const client = useSupabaseClient()
+const user = useSupabaseUser()
+
+let isAccountMenu = ref(false)
+let isCartHover = ref(false)
+let isSearching = ref(false)
+let searchItem = ref('')
+let items = ref(null)
+
+const searchByName = useDebounce(async () => {
+    isSearching.value = true
+    items.value = await useFetch(`/api/prisma/search-by-name/${searchItem.value}`)
+    isSearching.value = false
+}, 100)
+
+const signOut = () => {
+    client.auth.signOut()
+    navigateTo('/')
+}
+
+watch(() => searchItem.value, async () => {
+    if (!searchItem.value) { 
+        setTimeout(() => {
+            items.value = ''
+            isSearching.value = false
+            return
+        }, 500)
+    }
+    searchByName() 
+})
+</script>
+
 <template>
     <div id="MainLayout" class="w-full fixed z-50">
         <div 
@@ -70,7 +106,7 @@
                             </li>
                             <li 
                                 v-if="user" 
-                                @click="client.auth.signOut()"
+                                @click="signOut"
                                 class="text-[13px] py-2 px-4 w-full hover:bg-gray-200"
                             >
                                 Sign out
@@ -196,34 +232,3 @@
     <Footer/>
 
 </template>
-
-<script setup>
-import { useUserStore } from '~/stores/user';
-const userStore = useUserStore()
-
-const client = useSupabaseClient()
-const user = useSupabaseUser()
-
-let isAccountMenu = ref(false)
-let isCartHover = ref(false)
-let isSearching = ref(false)
-let searchItem = ref('')
-let items = ref(null)
-
-const searchByName = useDebounce(async () => {
-    isSearching.value = true
-    items.value = await useFetch(`/api/prisma/search-by-name/${searchItem.value}`)
-    isSearching.value = false
-}, 100)
-
-watch(() => searchItem.value, async () => {
-    if (!searchItem.value) { 
-        setTimeout(() => {
-            items.value = ''
-            isSearching.value = false
-            return
-        }, 500)
-    }
-    searchByName() 
-})
-</script>

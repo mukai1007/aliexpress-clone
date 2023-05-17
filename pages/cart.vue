@@ -1,3 +1,62 @@
+<script setup>
+import MainLayout from '~/layouts/MainLayout.vue';
+import { useUserStore } from '~/stores/user';
+const userStore = useUserStore()
+const user = useSupabaseUser()
+
+let selectedArray = ref([])
+
+onMounted(() => {
+    setTimeout(() => userStore.isLoading = false, 200)
+})
+
+const cards = ref([
+    'visa.png',
+    'mastercard.png',
+    'paypal.png',
+    'applepay.png',
+])
+
+const totalPriceComputed = computed(() => {
+    let price = 0
+    userStore.cart.forEach(prod => {
+        price += prod.price
+    })
+    return price / 100
+})
+
+const selectedRadioFunc = (e) => {
+
+    if (!selectedArray.value.length) {
+        selectedArray.value.push(e)
+        return
+    }
+
+    selectedArray.value.forEach((item, index) => {
+        if (e.id != item.id) {
+            selectedArray.value.push(e)
+        } else {
+            selectedArray.value.splice(index, 1);
+        }
+    })
+}
+
+const goToCheckout = () => {
+    let ids = []
+    userStore.checkout = []
+
+    selectedArray.value.forEach(item => ids.push(item.id))
+
+    let res = userStore.cart.filter((item) => {
+        return ids.indexOf(item.id) != -1
+    })
+
+    res.forEach(item => userStore.checkout.push(toRaw(item)))
+
+    return navigateTo('/checkout')
+}  
+</script>
+
 <template>
     <MainLayout>
         <div id="ShoppingCartPage" class="mt-4 max-w-[1200px] mx-auto px-2">
@@ -66,7 +125,7 @@
                                 $ <span class="font-extrabold">{{ totalPriceComputed }}</span>
                             </div>
                         </div>
-                        <button
+                        <button 
                             @click="goToCheckout"
                             class="
                                 flex
@@ -108,62 +167,3 @@
         </div>
     </MainLayout>
 </template>
-
-<script setup>
-import MainLayout from '~/layouts/MainLayout.vue';
-import { useUserStore } from '~/stores/user';
-const userStore = useUserStore()
-const user = useSupabaseUser()
-
-let selectedArray = ref([])
-
-onMounted(() => {
-    setTimeout(() => userStore.isLoading = false, 200)
-})
-
-const cards = ref([
-    'visa.png',
-    'mastercard.png',
-    'paypal.png',
-    'applepay.png',
-])
-
-const totalPriceComputed = computed(() => {
-    let price = 0
-    userStore.cart.forEach(prod => {
-        price += prod.price
-    })
-    return price / 100
-})
-
-const selectedRadioFunc = (e) => {
-
-    if (!selectedArray.value.length) {
-        selectedArray.value.push(e)
-        return
-    }
-
-    selectedArray.value.forEach((item, index) => {
-        if (e.id != item.id) {
-            selectedArray.value.push(e)
-        } else {
-            selectedArray.value.splice(index, 1);
-        }
-    })
-}
-
-const goToCheckout = () => {
-    let ids = []
-    userStore.checkout = []
-
-    selectedArray.value.forEach(item => ids.push(item.id))
-
-    let res = userStore.cart.filter((item) => {
-        return ids.indexOf(item.id) != -1
-    })
-
-    res.forEach(item => userStore.checkout.push(toRaw(item)))
-
-    return navigateTo('/checkout')
-}  
-</script>

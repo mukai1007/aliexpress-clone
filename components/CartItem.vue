@@ -74,7 +74,7 @@ watch(() => isSelected.value, (val) => {
             <p class="text-[#009A66] text-xs font-semibold pt-1">
                 Free Shipping
             </p>
-
+            
             <div class="flex items-center justify-end">
                 <button 
                     @click="removeFromCart()"
