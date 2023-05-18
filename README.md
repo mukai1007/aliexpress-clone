@@ -27,3 +27,9 @@ npx prisma migrate dev --name init
 ```
 # Application Images
 
+<img width="1439" src="https://github.com/mukai1007/aliexpress-clone/blob/master/public/app-photo/home.png?raw=true">
+<img width="1439" src="https://github.com/mukai1007/aliexpress-clone/blob/master/public/app-photo/search.png?raw=true">
+<img width="1439" src="https://github.com/mukai1007/aliexpress-clone/blob/master/public/app-photo/detailview.png?raw=true">
+<img width="1439" src="https://github.com/mukai1007/aliexpress-clone/blob/master/public/app-photo/cart.png?raw=true">
+<img width="1439" src="https://github.com/mukai1007/aliexpress-clone/blob/master/public/app-photo/checkout.png?raw=true">
+<img width="1439" src="https://github.com/mukai1007/aliexpress-clone/blob/master/public/app-photo/orders.png?raw=true">
