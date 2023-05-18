@@ -3,5 +3,6 @@ const prisma = new PrismaClient()
 
 export default defineEventHandler(async (event) => {
     let products = await prisma.products.findMany()
+    console.log('products:', products);
     return products
 })
